@@ -4,14 +4,25 @@ import json
 import re
 from io import BytesIO
 from PIL import Image
+import os
+from dotenv import load_dotenv
+from huggingface_hub import InferenceClient
+
+# Load environment variables
+load_dotenv()
 
 # --- CONFIG ---
 GEMINI_API_KEY = "AIzaSyDMPQ-gXja7sjEOuCq9x10OZUYIbEifgsM"  # Replace with your Gemini API key
 GEMINI_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={GEMINI_API_KEY}"
 
-# Stability AI API configuration
-STABILITY_API_KEY = "sk-BMhOvXl348UkXcHO0pV9GIlK6QSkL8cQSxBfggQqL7Ge8Yva"  # Replace with your actual API key
-STABILITY_URL = "https://api.stability.ai/v2beta/stable-image/generate/sd3"
+# Get API key from environment variables
+HF_API_KEY = os.getenv("HF_API_KEY")
+
+# Initialize Hugging Face client
+client = InferenceClient(
+    provider="fal-ai",
+    api_key=HF_API_KEY
+)
 
 # Detect Tamil characters in the input text
 def is_tamil(text):
@@ -38,58 +49,21 @@ def generate_tamil_story(prompt):
         st.error(f"❌ Gemini API Error {response.status_code}: {response.text}")
         return None
 
-# Generate a related image using Stability AI
+# Generate a related image using Hugging Face client
 def generate_story_image(prompt):
     try:
-        headers = {
-            "Authorization": f"Bearer {STABILITY_API_KEY}",
-            "Accept": "image/*"
-        }
-        
-        # Corrected multipart form-data
-        files = {
-            "prompt": (None, f"children's story book illustration, {prompt}, cute style, colorful, safe for kids"),
-            "cfg_scale": (None, "7"),
-            "height": (None, "512"),
-            "width": (None, "512"),
-            "steps": (None, "30"),
-            "samples": (None, "1")
-        }
-
-        # Debug output
-        st.write("Debug - Request details:")
-        st.write(f"URL: {STABILITY_URL}")
-        st.write("Headers:", headers)
-        st.write("Files:", files)
-
-        response = requests.post(
-            STABILITY_URL,
-            headers=headers,
-            files=files
+        # Generate image using Hugging Face client
+        image = client.text_to_image(
+            prompt=f"children's story book illustration, {prompt}, cute style, colorful, safe for kids",
+            model="openfree/flux-chatgpt-ghibli-lora"  # Using Ghibli style model for child-friendly illustrations
         )
-
-        # Debug output
-        st.write(f"Response Status: {response.status_code}")
-        st.write(f"Response Headers: {dict(response.headers)}")
         
-        if response.status_code == 200:
-            img_byte_arr = BytesIO(response.content)
-            img = Image.open(img_byte_arr)
-            buffer = BytesIO()
-            img.save(buffer, format="PNG")
-            buffer.seek(0)
-            return buffer
-        else:
-            try:
-                error_data = response.json()
-                st.error(f"❌ Image Generation Error: {error_data.get('name', 'Unknown error')}")
-                if 'errors' in error_data:
-                    for error in error_data['errors']:
-                        st.error(f"- {error}")
-            except Exception as e:
-                st.error("❌ Unexpected Error parsing error response")
-            return None
-
+        # Convert PIL Image to buffer
+        buffer = BytesIO()
+        image.save(buffer, format="PNG")
+        buffer.seek(0)
+        
+        return buffer
     except Exception as e:
         st.error(f"❌ Image generation failed: {str(e)}")
         return None
