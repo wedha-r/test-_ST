@@ -12,11 +12,20 @@ from huggingface_hub import InferenceClient
 load_dotenv()
 
 # --- CONFIG ---
-GEMINI_API_KEY = "AIzaSyDMPQ-gXja7sjEOuCq9x10OZUYIbEifgsM"  # Replace with your Gemini API key
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")  # Get from environment variable
 GEMINI_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={GEMINI_API_KEY}"
 
 # Get API key from environment variables
 HF_API_KEY = os.getenv("HF_API_KEY")
+
+# Add this after loading environment variables
+if not GEMINI_API_KEY:
+    st.error("❌ Gemini API key not found in environment variables")
+    st.stop()
+
+if not HF_API_KEY:
+    st.error("❌ Hugging Face API key not found in environment variables")
+    st.stop()
 
 # Initialize Hugging Face client
 client = InferenceClient(
