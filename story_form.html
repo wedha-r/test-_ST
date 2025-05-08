@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create New Story</title>
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#FF6B6B',secondary:'#4ECDC4'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+body {
+font-family: 'Quicksand', sans-serif;
+background-color: #FCFCFC;
+}
+.theme-card {
+transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.theme-card:hover, .theme-card.selected {
+transform: translateY(-2px);
+box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+.theme-card.selected {
+border-color: #FF6B6B;
+}
+.voice-card {
+transition: transform 0.2s ease, border-color 0.2s ease;
+}
+.voice-card:hover {
+transform: translateY(-2px);
+}
+.voice-card.selected {
+border-color: #FF6B6B;
+}
+.age-option {
+transition: all 0.2s ease;
+}
+.age-option.selected {
+background-color: #FF6B6B;
+color: white;
+}
+.length-option input:checked + label {
+border-color: #FF6B6B;
+background-color: #FF6B6B10;
+}
+.length-option input:checked + label .check-circle {
+background-color: #FF6B6B;
+border-color: #FF6B6B;
+}
+.length-option input:checked + label .check-icon {
+opacity: 1;
+}
+.character-type-option input:checked + label {
+border-color: #FF6B6B;
+background-color: #FF6B6B10;
+}
+.preview-animation {
+animation: pulse 2s infinite;
+}
+@keyframes pulse {
+0% { opacity: 0.7; }
+50% { opacity: 1; }
+100% { opacity: 0.7; }
+}
+.white-space-nowrap {
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+}
+</style>
+</head>
+<body class="bg-white">
+<!-- Nav Bar -->
+<nav class="fixed top-0 w-full bg-white shadow-sm z-50 px-4 py-3 flex items-center justify-between">
+<div class="flex items-center">
+<a href="https://readdy.ai/home/4f0e41a8-2415-4dbe-ad13-116689ebb358/34a1f335-1f3a-4314-bc48-113aa0ac85b4" data-readdy="true" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 cursor-pointer">
+<i class="ri-arrow-left-s-line text-xl"></i>
+</a>
+<h1 class="text-lg font-semibold ml-3">Create New Story</h1>
+</div>
+<div class="flex items-center gap-2">
+<button class="text-primary text-sm font-medium cursor-pointer">Save Draft</button>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="pt-16 pb-20 px-4">
+<!-- Progress Bar -->
+<div class="mb-6">
+<div class="flex justify-between text-xs text-gray-500 mb-1">
+<span>Story Creation Progress</span>
+<span id="progress-percentage">0%</span>
+</div>
+<div class="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+<div id="progress-bar" class="h-full bg-primary rounded-full" style="width: 0%"></div>
+</div>
+</div>
+<!-- Form Sections -->
+<form id="story-creation-form">
+<!-- Theme Selection -->
+<div class="mb-6">
+<h2 class="text-lg font-semibold mb-2">Story Theme</h2>
+<p class="text-sm text-gray-500 mb-4">Choose a theme for your story</p>
+<div class="grid grid-cols-2 gap-3">
+<div class="theme-card cursor-pointer rounded-lg border border-gray-200 bg-white p-3" data-theme="adventure">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-orange-100 flex items-center justify-center mb-2">
+<img src="https://readdy.ai/api/search-image?query=icon%252C%25203D%2520cartoon%252C%2520wild%2520animals%2520in%2520jungle%2520like%2520lion%2520and%2520elephant%252C%2520the%2520icon%2520should%2520take%2520up%252070%2525%2520of%2520the%2520frame%252C%2520vibrant%2520colors%2520with%2520soft%2520gradients%252C%2520minimalist%2520design%252C%2520smooth%2520rounded%2520shapes%252C%2520subtle%2520shading%252C%2520no%2520outlines%252C%2520centered%2520composition%252C%2520isolated%2520on%2520white%2520background%252C%2520playful%2520and%2520friendly%2520aesthetic%252C%2520high%2520detail%2520quality&width=64&height=64&seq=101&orientation=squarish" alt="Adventure" class="w-full h-full object-cover">
+</div>
+<h3 class="font-medium text-sm mb-1">Adventure</h3>
+<p class="text-xs text-gray-500">Exciting journeys and discoveries</p>
+</div>
+<div class="theme-card cursor-pointer rounded-lg border border-gray-200 bg-white p-3" data-theme="fantasy">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-purple-100 flex items-center justify-center mb-2">
+<img src="https://readdy.ai/api/search-image?query=icon%252C%25203D%2520cartoon%252C%2520magical%2520fairy%2520tale%2520castle%2520with%2520dragon%252C%2520the%2520icon%2520should%2520take%2520up%252070%2525%2520of%2520the%2520frame%252C%2520vibrant%2520colors%2520with%2520soft%2520gradients%252C%2520minimalist%2520design%252C%2520smooth%2520rounded%2520shapes%252C%2520subtle%2520shading%252C%2520no%2520outlines%252C%2520centered%2520composition%252C%2520isolated%2520on%2520white%2520background%252C%2520playful%2520and%2520friendly%2520aesthetic%252C%2520high%2520detail%2520quality&width=64&height=64&seq=102&orientation=squarish" alt="Fantasy" class="w-full h-full object-cover">
+</div>
+<h3 class="font-medium text-sm mb-1">Fantasy</h3>
+<p class="text-xs text-gray-500">Magical worlds and creatures</p>
+</div>
+<div class="theme-card cursor-pointer rounded-lg border border-gray-200 bg-white p-3" data-theme="bedtime">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-blue-100 flex items-center justify-center mb-2">
+<img src="https://readdy.ai/api/search-image?query=icon%252C%25203D%2520cartoon%252C%2520moon%2520and%2520stars%2520with%2520sleeping%2520teddy%2520bear%252C%2520the%2520icon%2520should%2520take%2520up%252070%2525%2520of%2520the%2520frame%252C%2520vibrant%2520colors%2520with%2520soft%2520gradients%252C%2520minimalist%2520design%252C%2520smooth%2520rounded%2520shapes%252C%2520subtle%2520shading%252C%2520no%2520outlines%252C%2520centered%2520composition%252C%2520isolated%2520on%2520white%2520background%252C%2520playful%2520and%2520friendly%2520aesthetic%252C%2520high%2520detail%2520quality&width=64&height=64&seq=103&orientation=squarish" alt="Bedtime" class="w-full h-full object-cover">
+</div>
+<h3 class="font-medium text-sm mb-1">Bedtime Stories</h3>
+<p class="text-xs text-gray-500">Calming tales for sleepy time</p>
+</div>
+<div class="theme-card cursor-pointer rounded-lg border border-gray-200 bg-white p-3" data-theme="educational">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-green-100 flex items-center justify-center mb-2">
+<img src="https://readdy.ai/api/search-image?query=icon%252C%25203D%2520cartoon%252C%2520open%2520book%2520with%2520science%2520symbols%2520like%2520atoms%2520and%2520math%2520equations%252C%2520the%2520icon%2520should%2520take%2520up%252070%2525%2520of%2520the%2520frame%252C%2520vibrant%2520colors%2520with%2520soft%2520gradients%252C%2520minimalist%2520design%252C%2520smooth%2520rounded%2520shapes%252C%2520subtle%2520shading%252C%2520no%2520outlines%252C%2520centered%2520composition%252C%2520isolated%2520on%2520white%2520background%252C%2520playful%2520and%2520friendly%2520aesthetic%252C%2520high%2520detail%2520quality&width=64&height=64&seq=104&orientation=squarish" alt="Educational" class="w-full h-full object-cover">
+</div>
+<h3 class="font-medium text-sm mb-1">Educational</h3>
+<p class="text-xs text-gray-500">Learning through stories</p>
+</div>
+<div class="theme-card cursor-pointer rounded-lg border border-gray-200 bg-white p-3" data-theme="moral">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-yellow-100 flex items-center justify-center mb-2">
+<img src="https://readdy.ai/api/search-image?query=icon%252C%25203D%2520cartoon%252C%2520open%2520storybook%2520with%2520moral%2520symbols%2520like%2520heart%2520and%2520star%252C%2520the%2520icon%2520should%2520take%2520up%252070%2525%2520of%2520the%2520frame%252C%2520vibrant%2520colors%2520with%2520soft%2520gradients%252C%2520minimalist%2520design%252C%2520smooth%2520rounded%2520shapes%252C%2520subtle%2520shading%252C%2520no%2520outlines%252C%2520centered%2520composition%252C%2520isolated%2520on%2520white%2520background%252C%2520playful%2520and%2520friendly%2520aesthetic%252C%2520high%2520detail%2520quality&width=64&height=64&seq=105&orientation=squarish" alt="Moral" class="w-full h-full object-cover">
+</div>
+<h3 class="font-medium text-sm mb-1">Moral Stories</h3>
+<p class="text-xs text-gray-500">Tales with valuable lessons</p>
+</div>
+<div class="theme-card cursor-pointer rounded-lg border border-gray-200 bg-white p-3" data-theme="custom">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center mb-2">
+<i class="ri-add-line text-gray-400 text-xl"></i>
+</div>
+<h3 class="font-medium text-sm mb-1">Custom Theme</h3>
+<p class="text-xs text-gray-500">Create your own theme</p>
+</div>
+</div>
+</div>
+<!-- Age Range Selector -->
+<div class="mb-6">
+<h2 class="text-lg font-semibold mb-2">Age Range</h2>
+<p class="text-sm text-gray-500 mb-4">Select the appropriate age group</p>
+<div class="flex gap-3 mb-2">
+<div class="age-option flex-1 py-3 px-4 rounded-full bg-gray-100 text-center cursor-pointer" data-age="3-5">
+<span class="text-sm font-medium">3-5 years</span>
+</div>
+<div class="age-option flex-1 py-3 px-4 rounded-full bg-gray-100 text-center cursor-pointer" data-age="6-8">
+<span class="text-sm font-medium">6-8 years</span>
+</div>
+<div class="age-option flex-1 py-3 px-4 rounded-full bg-gray-100 text-center cursor-pointer" data-age="9-12">
+<span class="text-sm font-medium">9-12 years</span>
+</div>
+</div>
+<div class="bg-blue-50 rounded-lg p-3 text-sm text-blue-700">
+<div class="flex gap-2">
+<div class="w-5 h-5 flex-shrink-0 flex items-center justify-center">
+<i class="ri-information-line"></i>
+</div>
+<p id="age-description">Select an age range to see content complexity description</p>
+</div>
+</div>
+</div>
+<!-- Character Customization -->
+<div class="mb-6">
+<h2 class="text-lg font-semibold mb-2">Main Character</h2>
+<p class="text-sm text-gray-500 mb-4">Customize the story's main character</p>
+<div class="space-y-4">
+<div>
+<label for="character-name" class="block text-sm font-medium mb-1">Character Name</label>
+<input type="text" id="character-name" placeholder="Enter character name" class="w-full px-4 py-3 rounded-lg bg-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 border-none">
+</div>
+<div>
+<label class="block text-sm font-medium mb-2">Character Type</label>
+<div class="grid grid-cols-3 gap-3">
+<div class="character-type-option">
+<input type="radio" id="type-human" name="character-type" class="hidden" value="human">
+<label for="type-human" class="block cursor-pointer rounded-lg border border-gray-200 bg-white p-3 text-center">
+<div class="w-10 h-10 mx-auto rounded-full overflow-hidden bg-pink-100 flex items-center justify-center mb-2">
+<img src="https://readdy.ai/api/search-image?query=icon%252C%25203D%2520cartoon%252C%2520cute%2520child%2520character%2520smiling%252C%2520the%2520icon%2520should%2520take%2520up%252070%2525%2520of%2520the%2520frame%252C%2520vibrant%2520colors%2520with%2520soft%2520gradients%252C%2520minimalist%2520design%252C%2520smooth%2520rounded%2520shapes%252C%2520subtle%2520shading%252C%2520no%2520outlines%252C%2520centered%2520composition%252C%2520isolated%2520on%2520white%2520background%252C%2520playful%2520and%2520friendly%2520aesthetic%252C%2520high%2520detail%2520quality&width=64&height=64&seq=106&orientation=squarish" alt="Human" class="w-full h-full object-cover">
+</div>
+<span class="text-xs font-medium">Human</span>
+</label>
+</div>
+<div class="character-type-option">
+<input type="radio" id="type-animal" name="character-type" class="hidden" value="animal">
+<label for="type-animal" class="block cursor-pointer rounded-lg border border-gray-200 bg-white p-3 text-center">
+<div class="w-10 h-10 mx-auto rounded-full overflow-hidden bg-amber-100 flex items-center justify-center mb-2">
+<img src="https://readdy.ai/api/search-image?query=icon%252C%25203D%2520cartoon%252C%2520cute%2520fox%2520character%2520smiling%252C%2520the%2520icon%2520should%2520take%2520up%252070%2525%2520of%2520the%2520frame%252C%2520vibrant%2520colors%2520with%2520soft%2520gradients%252C%2520minimalist%2520design%252C%2520smooth%2520rounded%2520shapes%252C%2520subtle%2520shading%252C%2520no%2520outlines%252C%2520centered%2520composition%252C%2520isolated%2520on%2520white%2520background%252C%2520playful%2520and%2520friendly%2520aesthetic%252C%2520high%2520detail%2520quality&width=64&height=64&seq=107&orientation=squarish" alt="Animal" class="w-full h-full object-cover">
+</div>
+<span class="text-xs font-medium">Animal</span>
+</label>
+</div>
+<div class="character-type-option">
+<input type="radio" id="type-magical" name="character-type" class="hidden" value="magical">
+<label for="type-magical" class="block cursor-pointer rounded-lg border border-gray-200 bg-white p-3 text-center">
+<div class="w-10 h-10 mx-auto rounded-full overflow-hidden bg-purple-100 flex items-center justify-center mb-2">
+<img src="https://readdy.ai/api/search-image?query=icon%252C%25203D%2520cartoon%252C%2520cute%2520magical%2520unicorn%2520character%2520with%2520rainbow%2520horn%252C%2520the%2520icon%2520should%2520take%2520up%252070%2525%2520of%2520the%2520frame%252C%2520vibrant%2520colors%2520with%2520soft%2520gradients%252C%2520minimalist%2520design%252C%2520smooth%2520rounded%2520shapes%252C%2520subtle%2520shading%252C%2520no%2520outlines%252C%2520centered%2520composition%252C%2520isolated%2520on%2520white%2520background%252C%2520playful%2520and%2520friendly%2520aesthetic%252C%2520high%2520detail%2520quality&width=64&height=64&seq=108&orientation=squarish" alt="Magical" class="w-full h-full object-cover">
+</div>
+<span class="text-xs font-medium">Magical</span>
+</label>
+</div>
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium mb-2">Personality Traits</label>
+<div class="flex flex-wrap gap-2">
+<div class="trait-option">
+<input type="checkbox" id="trait-brave" name="traits" class="hidden" value="brave">
+<label for="trait-brave" class="block cursor-pointer rounded-full px-3 py-1.5 border border-gray-200 bg-white text-sm">Brave</label>
+</div>
+<div class="trait-option">
+<input type="checkbox" id="trait-kind" name="traits" class="hidden" value="kind">
+<label for="trait-kind" class="block cursor-pointer rounded-full px-3 py-1.5 border border-gray-200 bg-white text-sm">Kind</label>
+</div>
+<div class="trait-option">
+<input type="checkbox" id="trait-curious" name="traits" class="hidden" value="curious">
+<label for="trait-curious" class="block cursor-pointer rounded-full px-3 py-1.5 border border-gray-200 bg-white text-sm">Curious</label>
+</div>
+<div class="trait-option">
+<input type="checkbox" id="trait-clever" name="traits" class="hidden" value="clever">
+<label for="trait-clever" class="block cursor-pointer rounded-full px-3 py-1.5 border border-gray-200 bg-white text-sm">Clever</label>
+</div>
+<div class="trait-option">
+<input type="checkbox" id="trait-funny" name="traits" class="hidden" value="funny">
+<label for="trait-funny" class="block cursor-pointer rounded-full px-3 py-1.5 border border-gray-200 bg-white text-sm">Funny</label>
+</div>
+<div class="trait-option">
+<input type="checkbox" id="trait-shy" name="traits" class="hidden" value="shy">
+<label for="trait-shy" class="block cursor-pointer rounded-full px-3 py-1.5 border border-gray-200 bg-white text-sm">Shy</label>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Story Length -->
+<div class="mb-6">
+<h2 class="text-lg font-semibold mb-2">Story Length</h2>
+<p class="text-sm text-gray-500 mb-4">Choose how long you want the story to be</p>
+<div class="space-y-3">
+<div class="length-option">
+<input type="radio" id="length-short" name="story-length" class="hidden" value="short">
+<label for="length-short" class="flex items-center justify-between p-3 rounded-lg border border-gray-200 bg-white cursor-pointer">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 flex items-center justify-center rounded-full bg-blue-100">
+<i class="ri-timer-line text-blue-600"></i>
+</div>
+<div>
+<h3 class="text-sm font-medium">Short</h3>
+<p class="text-xs text-gray-500">About 5 minutes (300-500 words)</p>
+</div>
+</div>
+<div class="check-circle w-5 h-5 rounded-full border border-gray-300 flex items-center justify-center">
+<i class="ri-check-line text-white text-xs check-icon opacity-0"></i>
+</div>
+</label>
+</div>
+<div class="length-option">
+<input type="radio" id="length-medium" name="story-length" class="hidden" value="medium">
+<label for="length-medium" class="flex items-center justify-between p-3 rounded-lg border border-gray-200 bg-white cursor-pointer">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 flex items-center justify-center rounded-full bg-green-100">
+<i class="ri-timer-line text-green-600"></i>
+</div>
+<div>
+<h3 class="text-sm font-medium">Medium</h3>
+<p class="text-xs text-gray-500">About 10 minutes (600-800 words)</p>
+</div>
+</div>
+<div class="check-circle w-5 h-5 rounded-full border border-gray-300 flex items-center justify-center">
+<i class="ri-check-line text-white text-xs check-icon opacity-0"></i>
+</div>
+</label>
+</div>
+<div class="length-option">
+<input type="radio" id="length-long" name="story-length" class="hidden" value="long">
+<label for="length-long" class="flex items-center justify-between p-3 rounded-lg border border-gray-200 bg-white cursor-pointer">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 flex items-center justify-center rounded-full bg-purple-100">
+<i class="ri-timer-line text-purple-600"></i>
+</div>
+<div>
+<h3 class="text-sm font-medium">Long</h3>
+<p class="text-xs text-gray-500">About 15 minutes (900-1200 words)</p>
+</div>
+</div>
+<div class="check-circle w-5 h-5 rounded-full border border-gray-300 flex items-center justify-center">
+<i class="ri-check-line text-white text-xs check-icon opacity-0"></i>
+</div>
+</label>
+</div>
+</div>
+</div>
+<!-- Voice Narrator Selection -->
+<div class="mb-6">
+<h2 class="text-lg font-semibold mb-2">Voice Narrator</h2>
+<p class="text-sm text-gray-500 mb-4">Choose who will narrate your story</p>
+<div class="grid grid-cols-3 gap-3 mb-4">
+<div class="voice-card cursor-pointer rounded-lg border border-gray-200 bg-white p-3 text-center" data-voice="grandma">
+<div class="w-14 h-14 mx-auto rounded-full overflow-hidden bg-primary/10 mb-2 relative">
+<img src="https://readdy.ai/api/search-image?query=portrait%2520of%2520a%2520kind%2520elderly%2520grandmother%2520with%2520glasses%2520and%2520gray%2520hair%252C%2520warm%2520smile%252C%2520high%2520quality%2520photo%252C%2520front%2520facing%252C%2520centered%2520composition&width=100&height=100&seq=109&orientation=squarish" alt="Grandma" class="w-full h-full object-cover">
+</div>
+<h3 class="text-xs font-medium mb-1">Grandma</h3>
+<button class="w-full py-1 rounded-full bg-gray-100 text-xs text-gray-600 flex items-center justify-center gap-1">
+<i class="ri-volume-up-line"></i>
+<span>Preview</span>
+</button>
+</div>
+<div class="voice-card cursor-pointer rounded-lg border border-gray-200 bg-white p-3 text-center" data-voice="mom">
+<div class="w-14 h-14 mx-auto rounded-full overflow-hidden bg-gray-100 mb-2">
+<img src="https://readdy.ai/api/search-image?query=portrait%2520of%2520a%2520middle-aged%2520mother%2520with%2520brown%2520hair%252C%2520warm%2520smile%252C%2520high%2520quality%2520photo%252C%2520front%2520facing%252C%2520centered%2520composition&width=100&height=100&seq=110&orientation=squarish" alt="Mom" class="w-full h-full object-cover">
+</div>
+<h3 class="text-xs font-medium mb-1">Mom</h3>
+<button class="w-full py-1 rounded-full bg-gray-100 text-xs text-gray-600 flex items-center justify-center gap-1">
+<i class="ri-volume-up-line"></i>
+<span>Preview</span>
+</button>
+</div>
+<div class="voice-card cursor-pointer rounded-lg border border-gray-200 bg-white p-3 text-center" data-voice="dad">
+<div class="w-14 h-14 mx-auto rounded-full overflow-hidden bg-gray-100 mb-2">
+<img src="https://readdy.ai/api/search-image?query=portrait%2520of%2520a%2520middle-aged%2520father%2520with%2520short%2520dark%2520hair%252C%2520friendly%2520smile%252C%2520high%2520quality%2520photo%252C%2520front%2520facing%252C%2520centered%2520composition&width=100&height=100&seq=111&orientation=squarish" alt="Dad" class="w-full h-full object-cover">
+</div>
+<h3 class="text-xs font-medium mb-1">Dad</h3>
+<button class="w-full py-1 rounded-full bg-gray-100 text-xs text-gray-600 flex items-center justify-center gap-1">
+<i class="ri-volume-up-line"></i>
+<span>Preview</span>
+</button>
+</div>
+<div class="voice-card cursor-pointer rounded-lg border border-gray-200 bg-white p-3 text-center" data-voice="ai-male">
+<div class="w-14 h-14 mx-auto rounded-full overflow-hidden bg-blue-100 mb-2">
+<img src="https://readdy.ai/api/search-image?query=3D%2520cartoon%2520male%2520AI%2520assistant%2520face%2520with%2520blue%2520glowing%2520elements%252C%2520friendly%2520expression%252C%2520high%2520quality%2520render%252C%2520front%2520facing%252C%2520centered%2520composition&width=100&height=100&seq=112&orientation=squarish" alt="AI Male" class="w-full h-full object-cover">
+</div>
+<h3 class="text-xs font-medium mb-1">AI Male</h3>
+<button class="w-full py-1 rounded-full bg-gray-100 text-xs text-gray-600 flex items-center justify-center gap-1">
+<i class="ri-volume-up-line"></i>
+<span>Preview</span>
+</button>
+</div>
+<div class="voice-card cursor-pointer rounded-lg border border-gray-200 bg-white p-3 text-center" data-voice="ai-female">
+<div class="w-14 h-14 mx-auto rounded-full overflow-hidden bg-pink-100 mb-2">
+<img src="https://readdy.ai/api/search-image?query=3D%2520cartoon%2520female%2520AI%2520assistant%2520face%2520with%2520pink%2520glowing%2520elements%252C%2520friendly%2520expression%252C%2520high%2520quality%2520render%252C%2520front%2520facing%252C%2520centered%2520composition&width=100&height=100&seq=113&orientation=squarish" alt="AI Female" class="w-full h-full object-cover">
+</div>
+<h3 class="text-xs font-medium mb-1">AI Female</h3>
+<button class="w-full py-1 rounded-full bg-gray-100 text-xs text-gray-600 flex items-center justify-center gap-1">
+<i class="ri-volume-up-line"></i>
+<span>Preview</span>
+</button>
+</div>
+<div class="voice-card cursor-pointer rounded-lg border border-gray-200 bg-white p-3 text-center" data-voice="record-new">
+<div class="w-14 h-14 mx-auto rounded-full overflow-hidden bg-gray-100 border-2 border-dashed border-gray-300 flex items-center justify-center mb-2">
+<i class="ri-add-line text-gray-400 text-xl"></i>
+</div>
+<h3 class="text-xs font-medium mb-1">Record New</h3>
+<button class="w-full py-1 rounded-full bg-primary text-xs text-white flex items-center justify-center gap-1">
+<i class="ri-mic-line"></i>
+<span>Record</span>
+</button>
+</div>
+</div>
+<div class="bg-gray-50 rounded-lg p-3 flex items-center gap-3">
+<div class="w-10 h-10 flex items-center justify-center rounded-full bg-primary/10 flex-shrink-0">
+<i class="ri-information-line text-primary"></i>
+</div>
+<p class="text-xs text-gray-600">You can add family voices by recording short samples. These voices will be used by our AI to narrate stories in a familiar voice.</p>
+</div>
+</div>
+<!-- Custom Prompt -->
+<div class="mb-6">
+<h2 class="text-lg font-semibold mb-2">Story Elements</h2>
+<p class="text-sm text-gray-500 mb-4">Add specific elements you'd like in your story</p>
+<textarea id="custom-prompt" rows="4" placeholder="Example: Include a talking tree, set in a snowy mountain, teach about friendship..." class="w-full px-4 py-3 rounded-lg bg-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 border-none resize-none"></textarea>
+<div class="flex justify-between mt-1">
+<span class="text-xs text-gray-500">Add keywords or specific elements</span>
+<span class="text-xs text-gray-500" id="char-count">0/200</span>
+</div>
+</div>
+<!-- Story Preview -->
+<div class="mb-8">
+<h2 class="text-lg font-semibold mb-4">Story Preview</h2>
+<div class="bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-12 h-12 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
+<img id="preview-image" src="https://readdy.ai/api/search-image?query=childrens%2520storybook%2520illustration%2520placeholder%252C%2520empty%2520page%2520with%2520decorative%2520border%252C%2520pastel%2520colors%252C%2520digital%2520art%2520style&width=100&height=100&seq=114&orientation=squarish" alt="Story Preview" class="w-full h-full object-cover">
+</div>
+<div class="flex-1">
+<h3 id="preview-title" class="font-medium text-sm mb-1">Your Story Title Will Appear Here</h3>
+<div class="flex items-center gap-3 text-xs text-gray-500">
+<span id="preview-age">Age: --</span>
+<span id="preview-length">Length: --</span>
+<span id="preview-theme">Theme: --</span>
+</div>
+</div>
+</div>
+<div class="bg-gray-50 rounded p-3 mb-3">
+<p id="preview-content" class="text-sm text-gray-500 italic preview-animation">Your story will be generated here based on your selections...</p>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full overflow-hidden bg-gray-100">
+<img id="preview-narrator-image" src="https://readdy.ai/api/search-image?query=blank%2520avatar%2520placeholder%2520with%2520question%2520mark%252C%2520simple%2520minimal%2520design%252C%2520light%2520gray%2520background&width=50&height=50&seq=115&orientation=squarish" alt="Narrator" class="w-full h-full object-cover">
+</div>
+<span id="preview-narrator" class="text-xs text-gray-500">Narrated by: Select a voice</span>
+</div>
+</div>
+</div>
+<!-- Generate Button -->
+<button id="generate-button" type="button" class="w-full py-4 bg-primary text-white font-medium rounded-button flex items-center justify-center gap-2 cursor-pointer mb-4">
+<i class="ri-magic-line"></i>
+Generate Story
+</button>
+<button type="button" class="w-full py-3 border border-gray-300 text-gray-600 font-medium rounded-button flex items-center justify-center gap-2 cursor-pointer">
+<i class="ri-refresh-line"></i>
+Reset Form
+</button>
+</form>
+</main>
+<!-- Tab Bar -->
+<nav class="fixed bottom-0 w-full bg-white border-t border-gray-200 px-2 py-1 grid grid-cols-4 z-50">
+<a href="https://readdy.ai/home/4f0e41a8-2415-4dbe-ad13-116689ebb358/34a1f335-1f3a-4314-bc48-113aa0ac85b4" data-readdy="true" class="flex flex-col items-center justify-center py-2 cursor-pointer">
+<div class="w-6 h-6 flex items-center justify-center">
+<i class="ri-home-5-line text-gray-500"></i>
+</div>
+<span class="text-xs mt-1 text-gray-500">Home</span>
+</a>
+<a href="#" class="flex flex-col items-center justify-center py-2 cursor-pointer">
+<div class="w-6 h-6 flex items-center justify-center">
+<i class="ri-mic-line text-gray-500"></i>
+</div>
+<span class="text-xs mt-1 text-gray-500">Voices</span>
+</a>
+<a href="#" class="flex flex-col items-center justify-center py-2 cursor-pointer">
+<div class="w-6 h-6 flex items-center justify-center">
+<i class="ri-ai-generate text-primary"></i>
+</div>
+<span class="text-xs mt-1 text-primary font-medium">Create</span>
+</a>
+<a href="#" class="flex flex-col items-center justify-center py-2 cursor-pointer">
+<div class="w-6 h-6 flex items-center justify-center">
+<i class="ri-settings-3-line text-gray-500"></i>
+</div>
+<span class="text-xs mt-1 text-gray-500">Settings</span>
+</a>
+</nav>
+<!-- Voice Preview Modal -->
+<div id="voice-preview-modal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center hidden">
+<div class="bg-white rounded-lg w-[90%] max-w-sm p-4">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-medium">Voice Preview</h3>
+<button id="close-voice-modal" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 cursor-pointer">
+<i class="ri-close-line"></i>
+</button>
+</div>
+<div class="flex items-center gap-3 mb-4">
+<div class="w-12 h-12 rounded-full overflow-hidden">
+<img id="modal-voice-image" src="https://readdy.ai/api/search-image?query=portrait%2520of%2520a%2520kind%2520elderly%2520grandmother%2520with%2520glasses%2520and%2520gray%2520hair%252C%2520warm%2520smile%252C%2520high%2520quality%2520photo%252C%2520front%2520facing%252C%2520centered%2520composition&width=100&height=100&seq=116&orientation=squarish" alt="Voice" class="w-full h-full object-cover">
+</div>
+<div>
+<h4 id="modal-voice-name" class="font-medium text-sm">Grandma</h4>
+<p class="text-xs text-gray-500">Voice Sample</p>
+</div>
+</div>
+<div class="bg-gray-50 rounded p-3 mb-4">
+<p class="text-sm text-gray-600">"Once upon a time, in a magical forest, there lived a friendly rabbit who loved to help others..."</p>
+</div>
+<div class="flex items-center justify-center">
+<button class="w-16 h-16 rounded-full bg-primary flex items-center justify-center">
+<i class="ri-play-fill text-white text-3xl"></i>
+</button>
+</div>
+</div>
+</div>
+<!-- Loading Modal -->
+<div id="loading-modal" class="fixed inset-0 bg-white z-50 flex flex-col items-center justify-center hidden">
+<div class="w-24 h-24 mb-6">
+<img src="https://readdy.ai/api/search-image?query=cute%2520animated%2520book%2520with%2520magical%2520sparkles%2520and%2520stars%2520coming%2520out%252C%25203D%2520cartoon%2520style%252C%2520vibrant%2520colors%252C%2520white%2520background%252C%2520centered%2520composition&width=200&height=200&seq=117&orientation=squarish" alt="Loading" class="w-full h-full object-contain animate-pulse">
+</div>
+<h3 class="text-lg font-medium mb-2">Creating Your Story</h3>
+<p class="text-sm text-gray-500 mb-6 text-center px-8">Our AI is crafting a personalized story based on your selections</p>
+<div class="w-64 h-2 bg-gray-100 rounded-full overflow-hidden mb-2">
+<div id="loading-progress" class="h-full bg-primary rounded-full" style="width: 0%"></div>
+</div>
+<p class="text-xs text-gray-500"><span id="loading-percentage">0%</span> complete</p>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+// Form elements
+const themeCards = document.querySelectorAll('.theme-card');
+const ageOptions = document.querySelectorAll('.age-option');
+const traitOptions = document.querySelectorAll('.trait-option input');
+const characterNameInput = document.getElementById('character-name');
+const customPromptInput = document.getElementById('custom-prompt');
+const charCount = document.getElementById('char-count');
+const voiceCards = document.querySelectorAll('.voice-card');
+const generateButton = document.getElementById('generate-button');
+const progressBar = document.getElementById('progress-bar');
+const progressPercentage = document.getElementById('progress-percentage');
+// Preview elements
+const previewTitle = document.getElementById('preview-title');
+const previewAge = document.getElementById('preview-age');
+const previewLength = document.getElementById('preview-length');
+const previewTheme = document.getElementById('preview-theme');
+const previewContent = document.getElementById('preview-content');
+const previewNarrator = document.getElementById('preview-narrator');
+const previewNarratorImage = document.getElementById('preview-narrator-image');
+const previewImage = document.getElementById('preview-image');
+// Modals
+const voicePreviewModal = document.getElementById('voice-preview-modal');
+const closeVoiceModal = document.getElementById('close-voice-modal');
+const modalVoiceImage = document.getElementById('modal-voice-image');
+const modalVoiceName = document.getElementById('modal-voice-name');
+const loadingModal = document.getElementById('loading-modal');
+const loadingProgress = document.getElementById('loading-progress');
+const loadingPercentage = document.getElementById('loading-percentage');
+// Age descriptions
+const ageDescriptions = {
+'3-5': 'Simple vocabulary, short sentences, and basic concepts suitable for preschoolers. Stories focus on everyday experiences with colorful illustrations.',
+'6-8': 'More complex vocabulary, longer sentences, and developing concepts. Stories include adventure themes with moral lessons.',
+'9-12': 'Advanced vocabulary, complex narratives, and deeper themes. Stories explore character development and more sophisticated concepts.'
+};
+// Theme selection
+themeCards.forEach(card => {
+card.addEventListener('click', function() {
+themeCards.forEach(c => c.classList.remove('selected'));
+this.classList.add('selected');
+const theme = this.dataset.theme;
+previewTheme.textContent = `Theme: ${theme.charAt(0).toUpperCase() + theme.slice(1)}`;
+updateProgress();
+updatePreview();
+});
+});
+// Age range selection
+ageOptions.forEach(option => {
+option.addEventListener('click', function() {
+ageOptions.forEach(o => o.classList.remove('selected'));
+this.classList.add('selected');
+const age = this.dataset.age;
+document.getElementById('age-description').textContent = ageDescriptions[age];
+previewAge.textContent = `Age: ${age} years`;
+updateProgress();
+updatePreview();
+});
+});
+// Character name input
+characterNameInput.addEventListener('input', function() {
+updateProgress();
+updatePreview();
+});
+// Character type selection
+document.querySelectorAll('input[name="character-type"]').forEach(input => {
+input.addEventListener('change', function() {
+updateProgress();
+updatePreview();
+});
+});
+// Personality traits
+traitOptions.forEach(trait => {
+trait.addEventListener('change', function() {
+const label = document.querySelector(`label[for="${this.id}"]`);
+if (this.checked) {
+label.classList.add('bg-primary/10', 'text-primary', 'border-primary');
+label.classList.remove('bg-white', 'border-gray-200');
+} else {
+label.classList.remove('bg-primary/10', 'text-primary', 'border-primary');
+label.classList.add('bg-white', 'border-gray-200');
+}
+updateProgress();
+updatePreview();
+});
+});
+// Story length selection
+document.querySelectorAll('input[name="story-length"]').forEach(input => {
+input.addEventListener('change', function() {
+previewLength.textContent = `Length: ${this.value.charAt(0).toUpperCase() + this.value.slice(1)}`;
+updateProgress();
+updatePreview();
+});
+});
+// Voice narrator selection
+voiceCards.forEach(card => {
+card.addEventListener('click', function() {
+if (this.dataset.voice !== 'record-new') {
+voiceCards.forEach(c => c.classList.remove('selected'));
+this.classList.add('selected');
+const voice = this.dataset.voice;
+const voiceName = this.querySelector('h3').textContent;
+const voiceImage = this.querySelector('img')?.src;
+if (voiceImage) {
+previewNarratorImage.src = voiceImage;
+}
+previewNarrator.textContent = `Narrated by: ${voiceName}`;
+updateProgress();
+updatePreview();
+}
+});
+const previewButton = card.querySelector('button');
+if (previewButton && card.dataset.voice !== 'record-new') {
+previewButton.addEventListener('click', function(e) {
+e.stopPropagation();
+modalVoiceName.textContent = card.querySelector('h3').textContent;
+modalVoiceImage.src = card.querySelector('img')?.src || '';
+voicePreviewModal.classList.remove('hidden');
+});
+}
+});
+// Close voice preview modal
+closeVoiceModal.addEventListener('click', function() {
+voicePreviewModal.classList.add('hidden');
+});
+// Custom prompt character count
+customPromptInput.addEventListener('input', function() {
+const count = this.value.length;
+charCount.textContent = `${count}/200`;
+if (count > 200) {
+charCount.classList.add('text-red-500');
+} else {
+charCount.classList.remove('text-red-500');
+}
+updateProgress();
+updatePreview();
+});
+// Generate button
+generateButton.addEventListener('click', function() {
+const progress = calculateProgress();
+if (progress < 80) {
+showIncompleteFormMessage();
+return;
+}
+loadingModal.classList.remove('hidden');
+simulateLoading();
+});
+// Calculate form completion progress
+function calculateProgress() {
+let total = 0;
+let completed = 0;
+// Theme (required)
+total += 1;
+if (document.querySelector('.theme-card.selected')) completed += 1;
+// Age (required)
+total += 1;
+if (document.querySelector('.age-option.selected')) completed += 1;
+// Character name (required)
+total += 1;
+if (characterNameInput.value.trim().length > 0) completed += 1;
+// Character type (required)
+total += 1;
+if (document.querySelector('input[name="character-type"]:checked')) completed += 1;
+// Personality traits (optional)
+total += 0.5;
+if (document.querySelectorAll('.trait-option input:checked').length > 0) completed += 0.5;
+// Story length (required)
+total += 1;
+if (document.querySelector('input[name="story-length"]:checked')) completed += 1;
+// Voice narrator (required)
+total += 1;
+if (document.querySelector('.voice-card.selected')) completed += 1;
+// Custom prompt (optional)
+total += 0.5;
+if (customPromptInput.value.trim().length > 0) completed += 0.5;
+return Math.floor((completed / total) * 100);
+}
+// Update progress bar
+function updateProgress() {
+const progress = calculateProgress();
+progressBar.style.width = `${progress}%`;
+progressPercentage.textContent = `${progress}%`;
+}
+// Update preview based on selections
+function updatePreview() {
+const selectedTheme = document.querySelector('.theme-card.selected')?.dataset.theme;
+const characterName = characterNameInput.value.trim();
+const characterType = document.querySelector('input[name="character-type"]:checked')?.value;
+const selectedTraits = Array.from(document.querySelectorAll('.trait-option input:checked')).map(t => t.value);
+if (characterName && selectedTheme) {
+let title = '';
+let content = '';
+// Generate title based on selections
+if (characterType === 'human') {
+title = `${characterName}'s ${selectedTheme.charAt(0).toUpperCase() + selectedTheme.slice(1)} Journey`;
+} else if (characterType === 'animal') {
+title = `${characterName} the ${characterType.charAt(0).toUpperCase() + characterType.slice(1)}'s Adventure`;
+} else if (characterType === 'magical') {
+title = `The Magical Tale of ${characterName}`;
+} else {
+title = `A ${selectedTheme.charAt(0).toUpperCase() + selectedTheme.slice(1)} Story`;
+}
+// Generate preview content
+if (characterName && characterType && selectedTraits.length > 0) {
+const trait = selectedTraits[0];
+content = `Once upon a time, there was a ${trait} ${characterType} named ${characterName}. This is the beginning of an exciting ${selectedTheme} story...`;
+// Update preview image based on theme and character
+let imageQuery = `childrens%20storybook%20illustration%20of%20a%20${characterType}%20character%20in%20a%20${selectedTheme}%20setting%2C%20cute%20style%2C%20vibrant%20colors%2C%20digital%20art`;
+previewImage.src = `https://readdy.ai/api/search-image?query=$%7BimageQuery%7D&width=100&height=100&seq=118&orientation=squarish`;
+}
+previewTitle.textContent = title;
+if (content) {
+previewContent.textContent = content;
+previewContent.classList.remove('preview-animation');
+}
+}
+}
+// Show incomplete form message
+function showIncompleteFormMessage() {
+const incompleteModal = document.createElement('div');
+incompleteModal.className = 'fixed inset-0 bg-black/50 z-50 flex items-center justify-center';
+incompleteModal.innerHTML = `
+<div class="bg-white rounded-lg w-[90%] max-w-sm p-4">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-medium">Complete Required Fields</h3>
+<button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 cursor-pointer close-incomplete-modal">
+<i class="ri-close-line"></i>
+</button>
+</div>
+<p class="text-sm text-gray-600 mb-4">Please complete all required fields before generating your story.</p>
+<button class="w-full py-3 bg-primary text-white font-medium rounded-button close-incomplete-modal">OK</button>
+</div>
+`;
+document.body.appendChild(incompleteModal);
+incompleteModal.querySelectorAll('.close-incomplete-modal').forEach(button => {
+button.addEventListener('click', function() {
+document.body.removeChild(incompleteModal);
+});
+});
+}
+// Simulate loading process
+function simulateLoading() {
+let progress = 0;
+const interval = setInterval(() => {
+progress += Math.floor(Math.random() * 10) + 1;
+if (progress > 100) progress = 100;
+loadingProgress.style.width = `${progress}%`;
+loadingPercentage.textContent = `${progress}%`;
+if (progress === 100) {
+clearInterval(interval);
+setTimeout(() => {
+loadingModal.classList.add('hidden');
+showGeneratedStory();
+}, 500);
+}
+}, 500);
+}
+// Show generated story
+let isReading = false;
+let currentParagraph = 0;
+let readingInterval;
+function showGeneratedStory() {
+let isPlaying = false;
+let currentAudio = null;
+let highlightInterval = null;
+const selectedTheme = document.querySelector('.theme-card.selected')?.dataset.theme || 'adventure';
+const characterName = characterNameInput.value.trim() || 'Alex';
+const characterType = document.querySelector('input[name="character-type"]:checked')?.value || 'human';
+const selectedTraits = Array.from(document.querySelectorAll('.trait-option input:checked')).map(t => t.value) || ['brave'];
+const storyLength = document.querySelector('input[name="story-length"]:checked')?.value || 'medium';
+const narrator = document.querySelector('.voice-card.selected')?.dataset.voice || 'ai-female';
+const generatedStoryModal = document.createElement('div');
+generatedStoryModal.className = 'fixed inset-0 bg-white z-50 overflow-y-auto';
+// Generate a title based on selections
+let storyTitle = '';
+if (characterType === 'human') {
+storyTitle = `${characterName}'s ${selectedTheme.charAt(0).toUpperCase() + selectedTheme.slice(1)} Journey`;
+} else if (characterType === 'animal') {
+storyTitle = `${characterName} the ${characterType.charAt(0).toUpperCase() + characterType.slice(1)}'s Adventure`;
+} else if (characterType === 'magical') {
+storyTitle = `The Magical Tale of ${characterName}`;
+}
+// Generate image query based on story elements
+const imageQuery = `childrens%20storybook%20illustration%20of%20a%20${characterType}%20character%20named%20${characterName}%20in%20a%20${selectedTheme}%20setting%2C%20${selectedTraits.join('%20')}%2C%20cute%20style%2C%20vibrant%20colors%2C%20digital%20art`;
+generatedStoryModal.innerHTML = `
+<nav class="fixed top-0 w-full bg-white shadow-sm z-50 px-4 py-3 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 cursor-pointer close-story-modal">
+<i class="ri-arrow-left-s-line text-xl"></i>
+</button>
+<h1 class="text-lg font-semibold">Generated Story</h1>
+</div>
+<div class="flex items-center gap-2">
+<button class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100">
+<i class="ri-share-line text-gray-600"></i>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100">
+<i class="ri-more-2-fill text-gray-600"></i>
+</button>
+</div>
+</nav>
+<div class="pt-16 pb-20 px-4">
+<div class="w-full h-48 rounded-xl overflow-hidden mb-4 mt-2">
+<img src="https://readdy.ai/api/search-image?query=$%7BimageQuery%7D&width=400&height=200&seq=119&orientation=landscape" alt="Story Cover" class="w-full h-full object-cover">
+</div>
+<h2 class="text-xl font-semibold mb-1">${storyTitle}</h2>
+<div class="flex items-center gap-2 mb-4">
+<span class="px-2 py-1 rounded-full bg-gray-100 text-xs text-gray-600">Age: ${document.querySelector('.age-option.selected')?.dataset.age || '6-8'}</span>
+<span class="px-2 py-1 rounded-full bg-gray-100 text-xs text-gray-600">Length: ${storyLength}</span>
+<span class="px-2 py-1 rounded-full bg-gray-100 text-xs text-gray-600">${selectedTheme.charAt(0).toUpperCase() + selectedTheme.slice(1)}</span>
+</div>
+<div class="flex items-center justify-between mb-6">
+<div class="flex items-center gap-2">
+<div class="w-10 h-10 rounded-full overflow-hidden">
+<img src="${document.querySelector('.voice-card.selected')?.querySelector('img')?.src || ''}" alt="Narrator" class="w-full h-full object-cover">
+</div>
+<div>
+<p class="text-xs text-gray-500">Narrated by</p>
+<p class="text-sm font-medium">${document.querySelector('.voice-card.selected')?.querySelector('h3')?.textContent || 'AI Voice'}</p>
+</div>
+</div>
+<button id="narration-control" class="w-12 h-12 rounded-full bg-primary flex items-center justify-center shadow-md relative">
+<i class="ri-play-fill text-white text-2xl"></i>
+<svg class="absolute inset-0 w-full h-full -rotate-90 opacity-100 cursor-pointer hover:opacity-90 transition-opacity" viewBox="0 0 100 100" id="progress-svg">
+<circle cx="50" cy="50" r="45" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="8"/>
+<circle id="progress-circle" cx="50" cy="50" r="45" fill="none" stroke="#ffffff" stroke-width="8" stroke-dasharray="0 283"/>
+</svg>
+</button>
+<div id="narration-progress" class="hidden mt-4">
+<div class="flex justify-between text-xs text-gray-500 mb-1">
+<span id="current-time">0:00</span>
+<span id="total-time">0:00</span>
+</div>
+<div class="h-1 bg-gray-100 rounded-full overflow-hidden">
+<div id="progress-bar" class="h-full bg-primary rounded-full transition-all duration-300" style="width: 0%"></div>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-lg border border-gray-200 p-4 mb-6">
+<div id="story-content" class="space-y-4">
+<p class="text-sm text-gray-700 leading-relaxed story-paragraph" data-paragraph="1">
+Once upon a time, in a beautiful land far away, there lived a ${selectedTraits.join(' and ')} ${characterType} named ${characterName}.
+</p>
+<p class="text-sm text-gray-700 leading-relaxed story-paragraph" data-paragraph="2">
+${characterName} always dreamed of going on a great ${selectedTheme} to discover new places and make new friends.
+</p>
+<p class="text-sm text-gray-700 leading-relaxed story-paragraph" data-paragraph="3">
+One sunny morning, ${characterName} decided it was time to start the journey that would change everything. With a small backpack filled with essentials and a heart full of courage, ${characterName} set off into the unknown.
+</p>
+<p class="text-sm text-gray-700 leading-relaxed story-paragraph" data-paragraph="4">
+Along the way, ${characterName} encountered many challenges and made wonderful new friends who helped overcome obstacles. Each friend taught ${characterName} something valuable about friendship, courage, and perseverance.
+</p>
+<p class="text-sm text-gray-700 leading-relaxed story-paragraph" data-paragraph="5">
+After many exciting adventures, ${characterName} finally reached the destination, but realized that the true treasure was not at the end of the journey, but in the experiences and friendships made along the way.
+</p>
+<p class="text-sm text-gray-700 leading-relaxed story-paragraph" data-paragraph="6">
+${characterName} returned home, not the same ${characterType} who had left, but wiser, braver, and with a heart full of wonderful memories.
+</p>
+<p class="text-sm text-gray-700 leading-relaxed story-paragraph" data-paragraph="7">
+And so, whenever anyone asks about ${characterName}'s great adventure, there's always a new story to tell and a lesson to share.
+</p>
+<p class="text-sm text-gray-700 leading-relaxed story-paragraph" data-paragraph="8">
+The End.
+</p>
+</div>
+</div>
+<div class="flex gap-3 mb-6">
+<button id="read-again-btn" class="flex-1 py-3 bg-primary text-white font-medium rounded-button flex items-center justify-center gap-2">
+<i class="ri-book-open-line"></i>
+<span id="read-btn-text">Read Again</span>
+</button>
+<button class="flex-1 py-3 border border-gray-300 text-gray-600 font-medium rounded-button flex items-center justify-center gap-2">
+<i class="ri-edit-line"></i>
+Edit Story
+</button>
+</div>
+<div id="reading-progress" class="hidden">
+<div class="flex justify-between text-xs text-gray-500 mb-1">
+<span>Reading Progress</span>
+<span id="reading-percentage">0%</span>
+</div>
+<div class="h-1 bg-gray-100 rounded-full overflow-hidden mb-4">
+<div id="reading-progress-bar" class="h-full bg-primary rounded-full transition-all duration-300" style="width: 0%"></div>
+</div>
+</div>
+<div class="bg-gray-50 rounded-lg p-4">
+<h3 class="font-medium mb-3">You might also like</h3>
+<div class="grid grid-cols-2 gap-3">
+<div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden cursor-pointer">
+<div class="h-24 overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=childrens%2520book%2520illustration%2520of%2520underwater%2520adventure%2520with%2520fish%2520and%2520mermaid%252C%2520cute%2520style%252C%2520vibrant%2520colors&width=200&height=120&seq=120&orientation=landscape" alt="Story" class="w-full h-full object-cover">
+</div>
+<div class="p-2">
+<h4 class="text-xs font-medium mb-1 line-clamp-1">Ocean Adventures</h4>
+<div class="flex items-center justify-between text-xs">
+<span class="text-gray-500">5-8 yrs</span>
+<span class="text-primary font-medium">6 min</span>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden cursor-pointer">
+<div class="h-24 overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=childrens%2520book%2520illustration%2520of%2520space%2520adventure%2520with%2520rocket%2520and%2520planets%252C%2520cute%2520style%252C%2520vibrant%2520colors&width=200&height=120&seq=121&orientation=landscape" alt="Story" class="w-full h-full object-cover">
+</div>
+<div class="p-2">
+<h4 class="text-xs font-medium mb-1 line-clamp-1">Space Explorers</h4>
+<div class="flex items-center justify-between text-xs">
+<span class="text-gray-500">6-9 yrs</span>
+<span class="text-primary font-medium">8 min</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+`;
+document.body.appendChild(generatedStoryModal);
+generatedStoryModal.querySelectorAll('.close-story-modal').forEach(button => {
+button.addEventListener('click', function() {
+document.body.removeChild(generatedStoryModal);
+});
+});
+}
+// Story reading functionality
+function startReading() {
+const readAgainBtn = document.getElementById('read-again-btn');
+const readBtnText = document.getElementById('read-btn-text');
+const readingProgress = document.getElementById('reading-progress');
+const readingProgressBar = document.getElementById('reading-progress-bar');
+const readingPercentage = document.getElementById('reading-percentage');
+const paragraphs = document.querySelectorAll('.story-paragraph');
+const totalParagraphs = paragraphs.length;
+if (!isReading) {
+isReading = true;
+currentParagraph = 0;
+readAgainBtn.querySelector('i').className = 'ri-pause-line';
+readBtnText.textContent = 'Pause';
+readingProgress.classList.remove('hidden');
+paragraphs.forEach(p => p.classList.remove('bg-primary/10'));
+readingInterval = setInterval(() => {
+if (currentParagraph < totalParagraphs) {
+paragraphs.forEach(p => p.classList.remove('bg-primary/10'));
+paragraphs[currentParagraph].classList.add('bg-primary/10');
+const progress = Math.round((currentParagraph + 1) / totalParagraphs * 100);
+readingProgressBar.style.width = `${progress}%`;
+readingPercentage.textContent = `${progress}%`;
+currentParagraph++;
+} else {
+stopReading();
+}
+}, 3000);
+} else {
+stopReading();
+}
+}
+function stopReading() {
+const readAgainBtn = document.getElementById('read-again-btn');
+const readBtnText = document.getElementById('read-btn-text');
+const readingProgress = document.getElementById('reading-progress');
+isReading = false;
+clearInterval(readingInterval);
+readAgainBtn.querySelector('i').className = 'ri-book-open-line';
+readBtnText.textContent = 'Read Again';
+readingProgress.classList.add('hidden');
+}
+document.addEventListener('click', function(e) {
+if (e.target.closest('#read-again-btn')) {
+startReading();
+}
+if (e.target.closest('#narration-control')) {
+const button = document.getElementById('narration-control');
+const progressSection = document.getElementById('narration-progress');
+const progressBar = document.getElementById('progress-bar');
+const progressCircle = document.getElementById('progress-circle');
+const currentTimeDisplay = document.getElementById('current-time');
+const totalTimeDisplay = document.getElementById('total-time');
+const paragraphs = document.querySelectorAll('.story-paragraph');
+if (!isPlaying) {
+if (!currentAudio) {
+currentAudio = new Audio('https://example.com/narration.mp3');
+currentAudio.addEventListener('loadedmetadata', () => {
+totalTimeDisplay.textContent = formatTime(currentAudio.duration);
+});
+currentAudio.addEventListener('timeupdate', () => {
+const progress = (currentAudio.currentTime / currentAudio.duration) * 100;
+progressBar.style.width = `${progress}%`;
+progressCircle.style.strokeDasharray = `${progress * 2.83} 283`;
+currentTimeDisplay.textContent = formatTime(currentAudio.currentTime);
+const currentParagraphIndex = Math.floor((currentAudio.currentTime / currentAudio.duration) * paragraphs.length);
+paragraphs.forEach((p, index) => {
+if (index === currentParagraphIndex) {
+p.classList.add('bg-primary/10');
+} else {
+p.classList.remove('bg-primary/10');
+}
+});
+});
+
+const progressSvg = document.getElementById('progress-svg');
+progressSvg.addEventListener('click', (e) => {
+if (!currentAudio) return;
+
+const rect = progressSvg.getBoundingClientRect();
+const x = e.clientX - rect.left;
+const y = e.clientY - rect.top;
+const centerX = rect.width / 2;
+const centerY = rect.height / 2;
+
+const angle = Math.atan2(y - centerY, x - centerX);
+let progress = (angle + Math.PI / 2) / (2 * Math.PI);
+if (progress < 0) progress += 1;
+
+const newTime = currentAudio.duration * progress;
+currentAudio.currentTime = newTime;
+progressCircle.style.strokeDasharray = `${progress * 283} 283`;
+progressBar.style.width = `${progress * 100}%`;
+currentTimeDisplay.textContent = formatTime(newTime);
+
+const currentParagraphIndex = Math.floor(progress * paragraphs.length);
+paragraphs.forEach((p, index) => {
+if (index === currentParagraphIndex) {
+p.classList.add('bg-primary/10');
+} else {
+p.classList.remove('bg-primary/10');
+}
+});
+});
+
+progressSvg.addEventListener('mousemove', (e) => {
+const rect = progressSvg.getBoundingClientRect();
+const x = e.clientX - rect.left;
+const y = e.clientY - rect.top;
+progressSvg.style.cursor = 'pointer';
+});
+currentAudio.addEventListener('ended', () => {
+isPlaying = false;
+button.querySelector('i').className = 'ri-play-fill text-white text-2xl';
+progressCircle.style.strokeDasharray = '0 283';
+paragraphs.forEach(p => p.classList.remove('bg-primary/10'));
+});
+}
+currentAudio.play();
+isPlaying = true;
+button.querySelector('i').className = 'ri-pause-fill text-white text-2xl';
+progressSection.classList.remove('hidden');
+} else {
+currentAudio.pause();
+isPlaying = false;
+button.querySelector('i').className = 'ri-play-fill text-white text-2xl';
+}
+}
+});
+function formatTime(seconds) {
+const minutes = Math.floor(seconds / 60);
+const remainingSeconds = Math.floor(seconds % 60);
+return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+}
+// Initialize the form
+updateProgress();
+});
+</script>
+</body>
+</html>
