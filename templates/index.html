@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StoryTeller AI</title>
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <link rel="icon" href="data:,">
+</head>
+<body class="bg-white font-sans text-gray-800">
+
+  <div class="max-w-2xl mx-auto py-10 px-4">
+    <h1 class="text-3xl font-bold text-center text-green-600 mb-8">Kathai Sollum Paati 🧓📖</h1>
+
+    <!-- Input & Button -->
+    <div class="text-center mb-6">
+      <input id="story-input" type="text" placeholder="Enter story theme"
+             class="w-full max-w-md px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-300" />
+      <button onclick="generateStory()"
+              class="mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-2 rounded">
+        ✨ Generate Story
+      </button>
+    </div>
+
+    <!-- Output: Story -->
+    <div id="story-result" class="bg-gray-50 border border-gray-200 p-4 rounded shadow-sm mb-6" style="white-space: pre-wrap;"></div>
+
+    <!-- Output: Image -->
+    <div class="flex justify-center">
+      <img id="story-image" class="rounded shadow max-w-xs" style="display: none;" />
+    </div>
+  </div>
+
+  <!-- JS to Call Flask Backend -->
+  <script>
+    async function generateStory() {
+      const theme = document.getElementById("story-input").value.trim();
+      if (!theme) {
+        alert("Please enter a story theme.");
+        return;
+      }
+
+      document.getElementById("story-result").innerText = "⏳ Generating story...";
+      document.getElementById("story-image").style.display = "none";
+
+      try {
+        const response = await fetch('/generate', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ theme })
+        });
+
+        const data = await response.json();
+        document.getElementById("story-result").innerText = data.story || "❌ Failed to generate story.";
+
+        const imgResponse = await fetch('/image', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ theme })
+        });
+
+        const blob = await imgResponse.blob();
+        const imageURL = URL.createObjectURL(blob);
+        const imageElement = document.getElementById("story-image");
+        imageElement.src = imageURL;
+        imageElement.style.display = "block";
+
+      } catch (error) {
+        document.getElementById("story-result").innerText = "❌ Error generating story or image.";
+        console.error(error);
+      }
+    }
+  </script>
+
+</body>
+</html>
