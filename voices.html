@@ -1,90 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Voice Profiles - StoryTeller AI</title>
-<script src="https://cdn.tailwindcss.com/3.4.16"></script>
-<script>tailwind.config={theme:{extend:{colors:{primary:'#4CAF50',secondary:'#8BC34A'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
-<style>
-:where([class^="ri-"])::before { content: "\f3c2"; }
-body {
-  font-family: 'Quicksand', sans-serif;
-  background-color: #FCFCFC;
-}
-.voice-card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.voice-card:hover, .voice-card:active {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-}
-.voice-wave {
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 3px;
-}
-.voice-wave span {
-  display: inline-block;
-  width: 3px;
-  height: 100%;
-  background-color: #4CAF50;
-  border-radius: 3px;
-  animation: wave 1.2s infinite ease-in-out;
-}
-.voice-wave span:nth-child(2) { animation-delay: 0.1s; }
-.voice-wave span:nth-child(3) { animation-delay: 0.2s; }
-.voice-wave span:nth-child(4) { animation-delay: 0.3s; }
-.voice-wave span:nth-child(5) { animation-delay: 0.4s; }
-@keyframes wave {
-  0%, 100% { height: 30%; }
-  50% { height: 100%; }
-}
-.dropdown-menu {
-  transform: scale(0.95);
-  opacity: 0;
-  visibility: hidden;
-  transition: transform 0.2s ease, opacity 0.2s ease, visibility 0.2s;
-}
-.dropdown-menu.active {
-  transform: scale(1);
-  opacity: 1;
-  visibility: visible;
-}
-.confirm-dialog {
-  transform: translateY(20px);
-  opacity: 0;
-  visibility: hidden;
-  transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s;
-}
-.confirm-dialog.active {
-  transform: translateY(0);
-  opacity: 1;
-  visibility: visible;
-}
-.overlay {
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s;
-}
-.overlay.active {
-  opacity: 1;
-  visibility: visible;
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Voice Library</title>
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background-color: #FCFCFC;
+    }
+    .voice-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .voice-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+    .voice-wave {
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+    }
+    .voice-wave span {
+      display: inline-block;
+      width: 3px;
+      height: 100%;
+      background-color: #4CAF50;
+      border-radius: 3px;
+      animation: wave 1.2s infinite ease-in-out;
+    }
+    .voice-wave span:nth-child(2) { animation-delay: 0.1s; }
+    .voice-wave span:nth-child(3) { animation-delay: 0.2s; }
+    .voice-wave span:nth-child(4) { animation-delay: 0.3s; }
+    .voice-wave span:nth-child(5) { animation-delay: 0.4s; }
+    @keyframes wave {
+      0%, 100% { height: 30%; }
+      50% { height: 100%; }
+    }
+  </style>
 </head>
 <body class="bg-white">
+
 <!-- Nav Bar -->
 <nav class="fixed top-0 w-full bg-white shadow-sm z-50 px-4 py-3 flex items-center justify-between">
   <div class="flex items-center gap-3">
-    <a href="https://readdy.ai/home/4f0e41a8-2415-4dbe-ad13-116689ebb358/34a1f335-1f3a-4314-bc48-113aa0ac85b4" data-readdy="true" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 cursor-pointer">
+    <a href="{{ url_for('index') }}" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 cursor-pointer">
       <i class="ri-arrow-left-s-line text-xl"></i>
     </a>
     <h1 class="text-lg font-semibold">Voices</h1>
@@ -94,59 +59,27 @@ body {
   </div>
 </nav>
 
-<!-- Search Bar (Hidden by default) -->
-<div id="searchBar" class="fixed top-0 left-0 w-full bg-white shadow-sm z-50 px-4 py-3 flex items-center gap-3 transform -translate-y-full transition-transform duration-300">
-  <div class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 cursor-pointer" id="closeSearch">
-    <i class="ri-arrow-left-s-line text-xl"></i>
-  </div>
-  <div class="flex-1 relative">
-    <input type="text" placeholder="Search voices..." class="w-full py-2 pl-9 pr-4 bg-gray-100 rounded-full text-sm focus:outline-none border-none">
-    <div class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 flex items-center justify-center">
-      <i class="ri-search-line text-gray-500"></i>
-    </div>
-  </div>
-  <div class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 cursor-pointer">
-    <i class="ri-mic-line text-primary"></i>
-  </div>
-</div>
-
-<!-- Main Content -->
 <main class="pt-16 pb-20 px-4">
-  <!-- Add New Voice Button -->
+  <!-- Add Voice Button -->
   <div class="mb-6">
-    <button id="addNewVoiceBtn" class="w-full py-3 bg-primary text-white font-medium rounded-button flex items-center justify-center gap-2 cursor-pointer">
-      <i class="ri-add-line"></i>
-      Add New Voice
+    <button id="addNewVoiceBtn" class="w-full py-3 bg-primary text-white font-medium rounded-md flex items-center justify-center gap-2 cursor-pointer">
+      <i class="ri-add-line"></i> Add New Voice
     </button>
   </div>
 
-  <!-- Voice Profiles Grid -->
+  <!-- Voice Grid -->
   <div class="grid grid-cols-2 gap-4" id="voiceGrid">
-    <!-- Voice Profile 1 -->
+    <!-- Voice Card Example -->
     <div class="voice-card bg-white rounded-lg shadow-sm border border-gray-100 p-4 relative">
       <div class="absolute right-2 top-2 z-10">
-        <button class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100/80 backdrop-blur-sm cursor-pointer dropdown-trigger" data-dropdown="dropdown1">
+        <button class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 cursor-pointer">
           <i class="ri-more-2-fill text-gray-600"></i>
         </button>
-        <div id="dropdown1" class="dropdown-menu absolute right-0 top-10 w-36 bg-white rounded-lg shadow-lg border border-gray-100 py-1 z-20">
-          <button class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 flex items-center gap-2 edit-voice-btn">
-            <i class="ri-edit-line text-gray-600"></i> Edit
-          </button>
-          <button class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 flex items-center gap-2 share-voice-btn">
-            <i class="ri-share-line text-gray-600"></i> Share
-          </button>
-          <button class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 flex items-center gap-2 set-default-btn">
-            <i class="ri-star-line text-gray-600"></i> Set as default
-          </button>
-          <button class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 flex items-center gap-2 text-red-500 delete-voice-btn">
-            <i class="ri-delete-bin-line text-red-500"></i> Delete
-          </button>
-        </div>
       </div>
       <div class="flex flex-col items-center">
         <div class="w-16 h-16 rounded-full overflow-hidden mb-3 relative">
-          <img src="https://readdy.ai/api/search-image?query=portrait%2520of%2520a%2520kind%2520elderly%2520grandmother%2520with%2520glasses%2520and%2520gray%2520hair%252C%2520warm%2520smile%252C%2520high%2520quality%2520photo%252C%2520front%2520facing%252C%2520centered%2520composition&width=120&height=120&seq=1&orientation=squarish" alt="Grandma" class="w-full h-full object-cover">
-          <div class="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity cursor-pointer play-btn">
+          <img src="https://via.placeholder.com/120" alt="Avatar" class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity cursor-pointer play-btn" data-voice="1">
             <i class="ri-play-fill text-white text-2xl"></i>
           </div>
         </div>
@@ -156,11 +89,7 @@ body {
           <span>1:25 min sample</span>
         </div>
         <div class="voice-wave hidden mb-2" data-voice="1">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
+          <span></span><span></span><span></span><span></span><span></span>
         </div>
         <div class="flex items-center gap-2">
           <button class="play-voice-btn px-3 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-medium cursor-pointer" data-voice="1">
@@ -172,292 +101,25 @@ body {
         </div>
       </div>
     </div>
-
-    <!-- Voice Profile 2 -->
-    <div class="voice-card bg-white rounded-lg shadow-sm border border-gray-100 p-4 relative">
-      <div class="absolute right-2 top-2 z-10">
-        <button class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100/80 backdrop-blur-sm cursor-pointer dropdown-trigger" data-dropdown="dropdown2">
-          <i class="ri-more-2-fill text-gray-600"></i>
-        </button>
-        <div id="dropdown2" class="dropdown-menu absolute right-0 top-10 w-36 bg-white rounded-lg shadow-lg border border-gray-100 py-1 z-20">
-          <button class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 flex items-center gap-2 edit-voice-btn">
-            <i class="ri-edit-line text-gray-600"></i> Edit
-          </button>
-          <button class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 flex items-center gap-2 share-voice-btn">
-            <i class="ri-share-line text-gray-600"></i> Share
-          </button>
-          <button class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 flex items-center gap-2 set-default-btn">
-            <i class="ri-star-line text-gray-600"></i> Set as default
-          </button>
-          <button class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 flex items-center gap-2 text-red-500 delete-voice-btn">
-            <i class="ri-delete-bin-line text-red-500"></i> Delete
-          </button>
-        </div>
-      </div>
-      <div class="flex flex-col items-center">
-        <div class="w-16 h-16 rounded-full overflow-hidden mb-3 relative">
-          <img src="https://readdy.ai/api/search-image?query=portrait%2520of%2520a%2520middle-aged%2520mother%2520with%2520brown%2520hair%252C%2520warm%2520smile%252C%2520high%2520quality%2520photo%252C%2520front%2520facing%252C%2520centered%2520composition&width=120&height=120&seq=2&orientation=squarish" alt="Mom" class="w-full h-full object-cover">
-          <div class="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity cursor-pointer play-btn">
-            <i class="ri-play-fill text-white text-2xl"></i>
-          </div>
-        </div>
-        <h3 class="font-medium text-sm mb-1">Mom Jennifer</h3>
-        <div class="flex items-center justify-center gap-1 text-xs text-gray-500 mb-2">
-          <i class="ri-time-line"></i>
-          <span>1:42 min sample</span>
-        </div>
-        <div class="voice-wave hidden mb-2" data-voice="2">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-        <div class="flex items-center gap-2">
-          <button class="play-voice-btn px-3 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-medium cursor-pointer" data-voice="2">
-            <i class="ri-play-fill"></i> Play
-          </button>
-          <button class="edit-voice-btn px-3 py-1.5 rounded-full bg-gray-100 text-gray-600 text-xs font-medium cursor-pointer">
-            <i class="ri-edit-line"></i> Edit
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Voice Profile 3 -->
-    <div class="voice-card bg-white rounded-lg shadow-sm border border-gray-100 p-4 relative">
-      <div class="absolute right-2 top-2 z-10">
-        <button class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100/80 backdrop-blur-sm cursor-pointer dropdown-trigger" data-dropdown="dropdown3">
-          <i class="ri-more-2-fill text-gray-600"></i>
-        </button>
-        <div id="dropdown3" class="dropdown-menu absolute right-0 top-10 w-36 bg-white rounded-lg shadow-lg border border-gray-100 py-1 z-20">
-          <button class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 flex items-center gap-2 edit-voice-btn">
-            <i class="ri-edit-line text-gray-600"></i> Edit
-          </button>
-          <button class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 flex items-center gap-2 share-voice-btn">
-            <i class="ri-share-line text-gray-600"></i> Share
-          </button>
-          <button class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 flex items-center gap-2 set-default-btn">
-            <i class="ri-star-line text-gray-600"></i> Set as default
-          </button>
-          <button class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 flex items-center gap-2 text-red-500 delete-voice-btn">
-            <i class="ri-delete-bin-line text-red-500"></i> Delete
-          </button>
-        </div>
-      </div>
-      <div class="flex flex-col items-center">
-        <div class="w-16 h-16 rounded-full overflow-hidden mb-3 relative">
-          <img src="https://readdy.ai/api/search-image?query=portrait%2520of%2520a%2520middle-aged%2520father%2520with%2520short%2520dark%2520hair%252C%2520friendly%2520smile%252C%2520high%2520quality%2520photo%252C%2520front%2520facing%252C%2520centered%2520composition&width=120&height=120&seq=3&orientation=squarish" alt="Dad" class="w-full h-full object-cover">
-          <div class="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity cursor-pointer play-btn">
-            <i class="ri-play-fill text-white text-2xl"></i>
-          </div>
-        </div>
-        <h3 class="font-medium text-sm mb-1">Dad Michael</h3>
-        <div class="flex items-center justify-center gap-1 text-xs text-gray-500 mb-2">
-          <i class="ri-time-line"></i>
-          <span>1:18 min sample</span>
-        </div>
-        <div class="voice-wave hidden mb-2" data-voice="3">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-        <div class="flex items-center gap-2">
-          <button class="play-voice-btn px-3 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-medium cursor-pointer" data-voice="3">
-            <i class="ri-play-fill"></i> Play
-          </button>
-          <button class="edit-voice-btn px-3 py-1.5 rounded-full bg-gray-100 text-gray-600 text-xs font-medium cursor-pointer">
-            <i class="ri-edit-line"></i> Edit
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Voice Profile 4 -->
-    <div class="voice-card bg-white rounded-lg shadow-sm border border-gray-100 p-4 relative">
-      <div class="absolute right-2 top-2 z-10">
-        <button class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100/80 backdrop-blur-sm cursor-pointer dropdown-trigger" data-dropdown="dropdown4">
-          <i class="ri-more-2-fill text-gray-600"></i>
-        </button>
-        <div id="dropdown4" class="dropdown-menu absolute right-0 top-10 w-36 bg-white rounded-lg shadow-lg border border-gray-100 py-1 z-20">
-          <button class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 flex items-center gap-2 edit-voice-btn">
-            <i class="ri-edit-line text-gray-600"></i> Edit
-          </button>
-          <button class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 flex items-center gap-2 share-voice-btn">
-            <i class="ri-share-line text-gray-600"></i> Share
-          </button>
-          <button class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 flex items-center gap-2 set-default-btn">
-            <i class="ri-star-line text-gray-600"></i> Set as default
-          </button>
-          <button class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 flex items-center gap-2 text-red-500 delete-voice-btn">
-            <i class="ri-delete-bin-line text-red-500"></i> Delete
-          </button>
-        </div>
-      </div>
-      <div class="flex flex-col items-center">
-        <div class="w-16 h-16 rounded-full overflow-hidden mb-3 relative">
-          <img src="https://readdy.ai/api/search-image?query=portrait%2520of%2520a%2520teenage%2520sister%2520with%2520long%2520hair%252C%2520friendly%2520smile%252C%2520high%2520quality%2520photo%252C%2520front%2520facing%252C%2520centered%2520composition&width=120&height=120&seq=4&orientation=squarish" alt="Sister" class="w-full h-full object-cover">
-          <div class="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity cursor-pointer play-btn">
-            <i class="ri-play-fill text-white text-2xl"></i>
-          </div>
-        </div>
-        <h3 class="font-medium text-sm mb-1">Sister Emily</h3>
-        <div class="flex items-center justify-center gap-1 text-xs text-gray-500 mb-2">
-          <i class="ri-time-line"></i>
-          <span>1:35 min sample</span>
-        </div>
-        <div class="voice-wave hidden mb-2" data-voice="4">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-        <div class="flex items-center gap-2">
-          <button class="play-voice-btn px-3 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-medium cursor-pointer" data-voice="4">
-            <i class="ri-play-fill"></i> Play
-          </button>
-          <button class="edit-voice-btn px-3 py-1.5 rounded-full bg-gray-100 text-gray-600 text-xs font-medium cursor-pointer">
-            <i class="ri-edit-line"></i> Edit
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Voice Profile 5 (AI Voice) -->
-    <div class="voice-card bg-white rounded-lg shadow-sm border border-gray-100 p-4 relative">
-      <div class="absolute right-2 top-2 z-10">
-        <button class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100/80 backdrop-blur-sm cursor-pointer dropdown-trigger" data-dropdown="dropdown5">
-          <i class="ri-more-2-fill text-gray-600"></i>
-        </button>
-        <div id="dropdown5" class="dropdown-menu absolute right-0 top-10 w-36 bg-white rounded-lg shadow-lg border border-gray-100 py-1 z-20">
-          <button class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 flex items-center gap-2 edit-voice-btn">
-            <i class="ri-edit-line text-gray-600"></i> Edit
-          </button>
-          <button class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 flex items-center gap-2 share-voice-btn">
-            <i class="ri-share-line text-gray-600"></i> Share
-          </button>
-          <button class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 flex items-center gap-2 set-default-btn">
-            <i class="ri-star-line text-gray-600"></i> Set as default
-          </button>
-          <button class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 flex items-center gap-2 text-red-500 delete-voice-btn">
-            <i class="ri-delete-bin-line text-red-500"></i> Delete
-          </button>
-        </div>
-      </div>
-      <div class="flex flex-col items-center">
-        <div class="w-16 h-16 rounded-full overflow-hidden mb-3 relative">
-          <img src="https://readdy.ai/api/search-image?query=3D%2520cartoon%2520robot%2520storyteller%2520with%2520friendly%2520face%252C%2520AI%2520assistant%252C%2520digital%2520art%2520style%252C%2520high%2520quality%2520render%252C%2520front%2520facing%252C%2520centered%2520composition&width=120&height=120&seq=5&orientation=squarish" alt="AI Narrator" class="w-full h-full object-cover">
-          <div class="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity cursor-pointer play-btn">
-            <i class="ri-play-fill text-white text-2xl"></i>
-          </div>
-        </div>
-        <h3 class="font-medium text-sm mb-1">AI Narrator</h3>
-        <div class="flex items-center justify-center gap-1 text-xs text-gray-500 mb-2">
-          <i class="ri-time-line"></i>
-          <span>1:50 min sample</span>
-        </div>
-        <div class="voice-wave hidden mb-2" data-voice="5">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-        <div class="flex items-center gap-2">
-          <button class="play-voice-btn px-3 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-medium cursor-pointer" data-voice="5">
-            <i class="ri-play-fill"></i> Play
-          </button>
-          <button class="edit-voice-btn px-3 py-1.5 rounded-full bg-gray-100 text-gray-600 text-xs font-medium cursor-pointer">
-            <i class="ri-edit-line"></i> Edit
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Voice Profile 6 (Cartoon Voice) -->
-    <div class="voice-card bg-white rounded-lg shadow-sm border border-gray-100 p-4 relative">
-      <div class="absolute right-2 top-2 z-10">
-        <button class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100/80 backdrop-blur-sm cursor-pointer dropdown-trigger" data-dropdown="dropdown6">
-          <i class="ri-more-2-fill text-gray-600"></i>
-        </button>
-        <div id="dropdown6" class="dropdown-menu absolute right-0 top-10 w-36 bg-white rounded-lg shadow-lg border border-gray-100 py-1 z-20">
-          <button class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 flex items-center gap-2 edit-voice-btn">
-            <i class="ri-edit-line text-gray-600"></i> Edit
-          </button>
-          <button class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 flex items-center gap-2 share-voice-btn">
-            <i class="ri-share-line text-gray-600"></i> Share
-          </button>
-          <button class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 flex items-center gap-2 set-default-btn">
-            <i class="ri-star-line text-gray-600"></i> Set as default
-          </button>
-          <button class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 flex items-center gap-2 text-red-500 delete-voice-btn">
-            <i class="ri-delete-bin-line text-red-500"></i> Delete
-          </button>
-        </div>
-      </div>
-      <div class="flex flex-col items-center">
-        <div class="w-16 h-16 rounded-full overflow-hidden mb-3 relative">
-          <img src="https://readdy.ai/api/search-image?query=3D%2520cartoon%2520character%2520with%2520funny%2520voice%252C%2520animated%2520movie%2520character%252C%2520digital%2520art%2520style%252C%2520high%2520quality%2520render%252C%2520front%2520facing%252C%2520centered%2520composition&width=120&height=120&seq=6&orientation=squarish" alt="Cartoon Voice" class="w-full h-full object-cover">
-          <div class="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity cursor-pointer play-btn">
-            <i class="ri-play-fill text-white text-2xl"></i>
-          </div>
-        </div>
-        <h3 class="font-medium text-sm mb-1">Cartoon Voice</h3>
-        <div class="flex items-center justify-center gap-1 text-xs text-gray-500 mb-2">
-          <i class="ri-time-line"></i>
-          <span>1:15 min sample</span>
-        </div>
-        <div class="voice-wave hidden mb-2" data-voice="6">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-        <div class="flex items-center gap-2">
-          <button class="play-voice-btn px-3 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-medium cursor-pointer" data-voice="6">
-            <i class="ri-play-fill"></i> Play
-          </button>
-          <button class="edit-voice-btn px-3 py-1.5 rounded-full bg-gray-100 text-gray-600 text-xs font-medium cursor-pointer">
-            <i class="ri-edit-line"></i> Edit
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Empty State (Hidden by default) -->
-  <div id="emptyState" class="hidden flex flex-col items-center justify-center py-16">
-    <div class="w-32 h-32 mb-6">
-      <img src="https://readdy.ai/api/search-image?query=3D%2520illustration%2520of%2520a%2520microphone%2520with%2520sound%2520waves%252C%2520minimal%2520design%252C%2520soft%2520colors%252C%2520centered%2520composition%252C%2520isolated%2520on%2520white%2520background&width=200&height=200&seq=7&orientation=squarish" alt="No Voices" class="w-full h-full object-contain">
-    </div>
-    <h2 class="text-lg font-semibold mb-2">No voices added yet</h2>
-    <p class="text-sm text-gray-500 text-center mb-6 max-w-xs">Add your voice or family members' voices to bring stories to life</p>
-    <button class="px-6 py-3 bg-primary text-white font-medium rounded-button flex items-center justify-center gap-2 cursor-pointer">
-      <i class="ri-add-line"></i>
-      Add Your First Voice
-    </button>
+    <!-- Duplicate above .voice-card div for more voices -->
   </div>
 </main>
 
-<!-- Tab Bar -->
+<!-- Bottom Navigation -->
 <nav class="fixed bottom-0 w-full bg-white border-t border-gray-200 px-2 py-1 grid grid-cols-4 z-40">
-  <a href="https://readdy.ai/home/4f0e41a8-2415-4dbe-ad13-116689ebb358/34a1f335-1f3a-4314-bc48-113aa0ac85b4" data-readdy="true" class="flex flex-col items-center justify-center py-2 cursor-pointer">
+  <a href="{{ url_for('index') }}" class="flex flex-col items-center justify-center py-2 cursor-pointer">
     <div class="w-6 h-6 flex items-center justify-center">
       <i class="ri-home-5-line text-gray-500"></i>
     </div>
     <span class="text-xs mt-1 text-gray-500">Home</span>
   </a>
-  <a href="#" class="flex flex-col items-center justify-center py-2 cursor-pointer">
+  <a href="{{ url_for('voices') }}" class="flex flex-col items-center justify-center py-2 cursor-pointer">
     <div class="w-6 h-6 flex items-center justify-center">
       <i class="ri-mic-fill text-primary"></i>
     </div>
     <span class="text-xs mt-1 text-primary font-medium">Voices</span>
   </a>
-  <a href="#" class="flex flex-col items-center justify-center py-2 cursor-pointer">
+  <a href="{{ url_for('form') }}" class="flex flex-col items-center justify-center py-2 cursor-pointer">
     <div class="w-6 h-6 flex items-center justify-center">
       <i class="ri-ai-generate text-gray-500"></i>
     </div>
@@ -471,302 +133,41 @@ body {
   </a>
 </nav>
 
-<!-- Add New Voice Modal -->
-<div id="addVoiceModal" class="fixed inset-0 z-50 hidden">
-  <div class="overlay absolute inset-0 bg-black/50" id="modalOverlay"></div>
-  <div class="absolute inset-x-4 top-1/2 -translate-y-1/2 bg-white rounded-xl shadow-xl p-5">
-    <h2 class="text-lg font-semibold mb-4">Add New Voice</h2>
-    <div class="mb-4">
-      <label class="block text-sm font-medium text-gray-700 mb-1">Voice Name</label>
-      <input type="text" placeholder="Enter name (e.g. Mom, Dad, Grandma)" class="w-full p-3 bg-gray-100 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 border-none">
-    </div>
-    <div class="mb-6">
-      <label class="block text-sm font-medium text-gray-700 mb-1">Voice Type</label>
-      <div class="grid grid-cols-2 gap-3">
-        <div class="flex items-center gap-3 p-3 border border-gray-200 rounded-lg cursor-pointer hover:border-primary">
-          <div class="w-8 h-8 flex items-center justify-center rounded-full bg-primary/10">
-            <i class="ri-mic-fill text-primary"></i>
-          </div>
-          <div>
-            <h3 class="text-sm font-medium">Record Voice</h3>
-            <p class="text-xs text-gray-500">Use your microphone</p>
-          </div>
-        </div>
-        <div class="flex items-center gap-3 p-3 border border-gray-200 rounded-lg cursor-pointer hover:border-primary">
-          <div class="w-8 h-8 flex items-center justify-center rounded-full bg-primary/10">
-            <i class="ri-upload-2-fill text-primary"></i>
-          </div>
-          <div>
-            <h3 class="text-sm font-medium">Upload Audio</h3>
-            <p class="text-xs text-gray-500">From your device</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="flex gap-3">
-      <button id="cancelAddVoice" class="flex-1 py-3 bg-gray-100 text-gray-600 font-medium rounded-button cursor-pointer">Cancel</button>
-      <button class="flex-1 py-3 bg-primary text-white font-medium rounded-button cursor-pointer">Continue</button>
-    </div>
-  </div>
-</div>
-
-<!-- Delete Confirmation Dialog -->
-<div id="deleteConfirmDialog" class="fixed inset-0 z-50 hidden">
-  <div class="overlay absolute inset-0 bg-black/50" id="confirmOverlay"></div>
-  <div class="confirm-dialog absolute inset-x-4 bottom-8 bg-white rounded-xl shadow-xl p-5">
-    <h2 class="text-lg font-semibold mb-2">Delete Voice?</h2>
-    <p class="text-sm text-gray-600 mb-6">This will permanently delete this voice profile. This action cannot be undone.</p>
-    <div class="flex gap-3">
-      <button id="cancelDelete" class="flex-1 py-3 bg-gray-100 text-gray-600 font-medium rounded-button cursor-pointer">Cancel</button>
-      <button id="confirmDelete" class="flex-1 py-3 bg-red-500 text-white font-medium rounded-button cursor-pointer">Delete</button>
-    </div>
-  </div>
-</div>
-
-<!-- Success Toast Notification -->
-<div id="successToast" class="fixed bottom-24 left-1/2 -translate-x-1/2 bg-gray-800 text-white px-4 py-3 rounded-lg shadow-lg flex items-center gap-3 z-50 opacity-0 transition-opacity duration-300">
-  <i class="ri-check-line text-green-400"></i>
-  <span class="text-sm" id="toastMessage">Voice set as default</span>
-</div>
-
+<!-- Voice Playback Logic -->
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  // Search functionality
-  const searchButton = document.getElementById('searchButton');
-  const searchBar = document.getElementById('searchBar');
-  const closeSearch = document.getElementById('closeSearch');
+  document.addEventListener('DOMContentLoaded', function () {
+    const playButtons = document.querySelectorAll('.play-voice-btn, .play-btn');
+    let currentlyPlaying = null;
 
-  searchButton.addEventListener('click', function() {
-    searchBar.style.transform = 'translateY(0)';
-  });
+    playButtons.forEach(button => {
+      button.addEventListener('click', function () {
+        const voiceId = this.getAttribute('data-voice');
+        const wave = document.querySelector(`.voice-wave[data-voice="${voiceId}"]`);
 
-  closeSearch.addEventListener('click', function() {
-    searchBar.style.transform = 'translateY(-100%)';
-  });
-
-  // Dropdown menu functionality
-  const dropdownTriggers = document.querySelectorAll('.dropdown-trigger');
-  
-  dropdownTriggers.forEach(trigger => {
-    trigger.addEventListener('click', function(e) {
-      e.stopPropagation();
-      const dropdownId = this.getAttribute('data-dropdown');
-      const dropdown = document.getElementById(dropdownId);
-      
-      // Close all other dropdowns first
-      document.querySelectorAll('.dropdown-menu').forEach(menu => {
-        if (menu.id !== dropdownId) {
-          menu.classList.remove('active');
+        if (currentlyPlaying && currentlyPlaying !== wave) {
+          currentlyPlaying.classList.add('hidden');
+          document.querySelector(`.play-voice-btn[data-voice="${currentlyPlaying.dataset.voice}"]`).innerHTML = '<i class="ri-play-fill"></i> Play';
         }
-      });
-      
-      dropdown.classList.toggle('active');
-    });
-  });
 
-  // Close dropdowns when clicking outside
-  document.addEventListener('click', function() {
-    document.querySelectorAll('.dropdown-menu').forEach(menu => {
-      menu.classList.remove('active');
-    });
-  });
-
-  // Voice playback functionality
-  const playButtons = document.querySelectorAll('.play-voice-btn, .play-btn');
-  let currentlyPlaying = null;
-
-  playButtons.forEach(button => {
-    button.addEventListener('click', function() {
-      const voiceId = this.getAttribute('data-voice');
-      const voiceWaves = document.querySelectorAll('.voice-wave');
-      const playBtns = document.querySelectorAll('.play-voice-btn');
-      
-      // If there's a voice currently playing, stop it
-      if (currentlyPlaying) {
-        voiceWaves.forEach(wave => {
-          if (wave.getAttribute('data-voice') === currentlyPlaying) {
-            wave.classList.add('hidden');
-          }
-        });
-        
-        playBtns.forEach(btn => {
-          if (btn.getAttribute('data-voice') === currentlyPlaying) {
-            btn.innerHTML = '<i class="ri-play-fill"></i> Play';
-          }
-        });
-      }
-      
-      // If clicking on the currently playing voice, stop it
-      if (currentlyPlaying === voiceId) {
-        currentlyPlaying = null;
-        return;
-      }
-      
-      // Start playing the new voice
-      currentlyPlaying = voiceId;
-      
-      voiceWaves.forEach(wave => {
-        if (wave.getAttribute('data-voice') === voiceId) {
-          wave.classList.remove('hidden');
-        }
-      });
-      
-      playBtns.forEach(btn => {
-        if (btn.getAttribute('data-voice') === voiceId) {
-          btn.innerHTML = '<i class="ri-pause-fill"></i> Pause';
-        }
-      });
-      
-      // Simulate stopping after 5 seconds
-      setTimeout(() => {
-        if (currentlyPlaying === voiceId) {
-          voiceWaves.forEach(wave => {
-            if (wave.getAttribute('data-voice') === voiceId) {
-              wave.classList.add('hidden');
-            }
-          });
-          
-          playBtns.forEach(btn => {
-            if (btn.getAttribute('data-voice') === voiceId) {
-              btn.innerHTML = '<i class="ri-play-fill"></i> Play';
-            }
-          });
-          
+        if (currentlyPlaying === wave) {
+          wave.classList.add('hidden');
+          this.innerHTML = '<i class="ri-play-fill"></i> Play';
           currentlyPlaying = null;
+        } else {
+          wave.classList.remove('hidden');
+          this.innerHTML = '<i class="ri-pause-fill"></i> Pause';
+          currentlyPlaying = wave;
+
+          setTimeout(() => {
+            wave.classList.add('hidden');
+            document.querySelector(`.play-voice-btn[data-voice="${voiceId}"]`).innerHTML = '<i class="ri-play-fill"></i> Play';
+            currentlyPlaying = null;
+          }, 5000);
         }
-      }, 5000);
-    });
-  });
-
-  // Add Voice Modal
-  const addNewVoiceBtn = document.getElementById('addNewVoiceBtn');
-  const addVoiceModal = document.getElementById('addVoiceModal');
-  const modalOverlay = document.getElementById('modalOverlay');
-  const cancelAddVoice = document.getElementById('cancelAddVoice');
-
-  addNewVoiceBtn.addEventListener('click', function() {
-    addVoiceModal.classList.remove('hidden');
-    setTimeout(() => {
-      document.querySelector('#addVoiceModal .overlay').classList.add('active');
-    }, 10);
-  });
-
-  function closeAddVoiceModal() {
-    document.querySelector('#addVoiceModal .overlay').classList.remove('active');
-    setTimeout(() => {
-      addVoiceModal.classList.add('hidden');
-    }, 300);
-  }
-
-  modalOverlay.addEventListener('click', closeAddVoiceModal);
-  cancelAddVoice.addEventListener('click', closeAddVoiceModal);
-
-  // Delete confirmation dialog
-  const deleteButtons = document.querySelectorAll('.delete-voice-btn');
-  const deleteConfirmDialog = document.getElementById('deleteConfirmDialog');
-  const confirmOverlay = document.getElementById('confirmOverlay');
-  const cancelDelete = document.getElementById('cancelDelete');
-  const confirmDelete = document.getElementById('confirmDelete');
-
-  deleteButtons.forEach(button => {
-    button.addEventListener('click', function(e) {
-      e.stopPropagation();
-      deleteConfirmDialog.classList.remove('hidden');
-      setTimeout(() => {
-        document.querySelector('#deleteConfirmDialog .overlay').classList.add('active');
-        document.querySelector('#deleteConfirmDialog .confirm-dialog').classList.add('active');
-      }, 10);
-    });
-  });
-
-  function closeDeleteConfirmDialog() {
-    document.querySelector('#deleteConfirmDialog .overlay').classList.remove('active');
-    document.querySelector('#deleteConfirmDialog .confirm-dialog').classList.remove('active');
-    setTimeout(() => {
-      deleteConfirmDialog.classList.add('hidden');
-    }, 300);
-  }
-
-  confirmOverlay.addEventListener('click', closeDeleteConfirmDialog);
-  cancelDelete.addEventListener('click', closeDeleteConfirmDialog);
-  
-  confirmDelete.addEventListener('click', function() {
-    // Simulate deleting the voice
-    closeDeleteConfirmDialog();
-    showToast('Voice deleted successfully');
-  });
-
-  // Set as default functionality
-  const setDefaultButtons = document.querySelectorAll('.set-default-btn');
-  
-  setDefaultButtons.forEach(button => {
-    button.addEventListener('click', function(e) {
-      e.stopPropagation();
-      showToast('Voice set as default narrator');
-      document.querySelectorAll('.dropdown-menu').forEach(menu => {
-        menu.classList.remove('active');
       });
     });
   });
-
-  // Edit voice button functionality
-  const editButtons = document.querySelectorAll('.edit-voice-btn');
-  
-  editButtons.forEach(button => {
-    button.addEventListener('click', function(e) {
-      e.stopPropagation();
-      showToast('Edit feature coming soon');
-      document.querySelectorAll('.dropdown-menu').forEach(menu => {
-        menu.classList.remove('active');
-      });
-    });
-  });
-
-  // Share voice button functionality
-  const shareButtons = document.querySelectorAll('.share-voice-btn');
-  
-  shareButtons.forEach(button => {
-    button.addEventListener('click', function(e) {
-      e.stopPropagation();
-      showToast('Share feature coming soon');
-      document.querySelectorAll('.dropdown-menu').forEach(menu => {
-        menu.classList.remove('active');
-      });
-    });
-  });
-
-  // Toast notification
-  function showToast(message) {
-    const toast = document.getElementById('successToast');
-    const toastMessage = document.getElementById('toastMessage');
-    
-    toastMessage.textContent = message;
-    toast.style.opacity = '1';
-    
-    setTimeout(() => {
-      toast.style.opacity = '0';
-    }, 3000);
-  }
-
-  // Toggle empty state for demo purposes
-  const toggleEmptyBtn = document.getElementById('toggleEmpty');
-  const voiceGrid = document.getElementById('voiceGrid');
-  const emptyState = document.getElementById('emptyState');
-  
-  if (toggleEmptyBtn) {
-    toggleEmptyBtn.addEventListener('click', function() {
-      if (voiceGrid.classList.contains('hidden')) {
-        voiceGrid.classList.remove('hidden');
-        emptyState.classList.add('hidden');
-        this.textContent = 'Show Empty State';
-      } else {
-        voiceGrid.classList.add('hidden');
-        emptyState.classList.remove('hidden');
-        this.textContent = 'Show Voice Grid';
-      }
-    });
-  }
-});
 </script>
+
 </body>
 </html>
